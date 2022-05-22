@@ -1,34 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:greenpark/pages/register.dart';
 
+import 'LoginPage.dart';
 import 'customWidget.dart';
 
+class RegisterView extends StatefulWidget {
+    RegisterView({Key? key}) : super(key: key);
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key, required this.title}) : super(key: key);
-  final String title;
   @override
-  State<LoginPage> createState() => _LoginPageState();
-  
+  _RegisterViewState createState() => _RegisterViewState();
 }
 
-class _LoginPageState  extends State<LoginPage> {
+class _RegisterViewState extends State<RegisterView> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Material(
-        child: Container(
+      child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-
-
         decoration: const BoxDecoration(
-
           image: DecorationImage(
               alignment: Alignment. topCenter,
-              image: AssetImage('logo_circular.png')),
+              image: AssetImage('logo_circular.png')
+          ),
 
           color: Color(0xA38BC34A),
         ),
@@ -38,18 +36,18 @@ class _LoginPageState  extends State<LoginPage> {
               bottom: 0,
               child: Container(
                 decoration: BoxDecoration(
-                    color: const  Color(0xB88BC34A),
+                  color: const  Color(0xB88BC34A),
                   borderRadius: BorderRadius.circular(25.0),
                 ),
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 1.8,
+                height: MediaQuery.of(context).size.height / 1.75,
                 child: Column(
                   children: [
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 35,
                     ),
                     const Text(
-                      "Sign In",
+                      "Create Account",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24.0,
@@ -59,7 +57,68 @@ class _LoginPageState  extends State<LoginPage> {
                       height: MediaQuery.of(context).size.height / 30,
                     ),
                     Container(
-
+                      width: MediaQuery.of(context).size.width / 1.4,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 5.0,
+                          right: 5.0,
+                        ),
+                        child: TextFormField(
+                          controller: nameController,
+                          keyboardType: TextInputType.text,
+                          decoration: const InputDecoration(
+                            hintText: "Full Name",
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                          ),
+                          cursorColor: Colors.black,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 30,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.4,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 5.0,
+                          right: 5.0,
+                        ),
+                        child: TextFormField(
+                          controller: phoneController,
+                          keyboardType: TextInputType.phone,
+                          decoration: const InputDecoration(
+                            hintText: "Phone Number",
+                            border:  UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                          ),
+                          cursorColor: Colors.black,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 30,
+                    ),
+                    Container(
                       width: MediaQuery.of(context).size.width / 1.4,
                       height: 40,
                       decoration: BoxDecoration(
@@ -119,50 +178,38 @@ class _LoginPageState  extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 1.3,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          MaterialButton(
-                            onPressed: () {},
-                            child: const Text("Forgot Password"),
-                          ),
-                        ],
-                      ),
-                    ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 40,
                     ),
                     const CustomButton(
                       height: 44,
-                      inputText: 'Sign In',
+                      inputText: 'Sign Up',
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 20,
+                      height: MediaQuery.of(context).size.height / 40,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("I'm a new user."),
+                        const Text("I'm already a member."),
                         MaterialButton(
                           onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => RegisterView(),
+                                builder: (context) => const LoginPage(title: '',),
                               ),
                             );
                           },
                           child: const Text(
-                            "Sign Up",
+                            "Sign In",
                             style: TextStyle(
                               color: Color(0xff0d7703),
                             ),
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
