@@ -1,35 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:greenpark/pages/register.dart';
+import 'package:greenpark/controllers/login_controller.dart';
+import 'package:greenpark/pages/RegistrationPage.dart';
+import 'package:provider/provider.dart';
 
 import 'customWidget.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, required this.title}) : super(key: key);
   final String title;
+
   @override
   State<LoginPage> createState() => _LoginPageState();
-  
 }
 
-class _LoginPageState  extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Material(
-        child: Container(
+      child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-
-
         decoration: const BoxDecoration(
-
           image: DecorationImage(
-              alignment: Alignment. topCenter,
+              alignment: Alignment.topCenter,
               image: AssetImage('logo_circular.png')),
-
           color: Color(0xA38BC34A),
         ),
         child: Stack(
@@ -38,7 +35,7 @@ class _LoginPageState  extends State<LoginPage> {
               bottom: 0,
               child: Container(
                 decoration: BoxDecoration(
-                    color: const  Color(0xB88BC34A),
+                  color: const Color(0xB88BC34A),
                   borderRadius: BorderRadius.circular(25.0),
                 ),
                 width: MediaQuery.of(context).size.width,
@@ -56,10 +53,9 @@ class _LoginPageState  extends State<LoginPage> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 30,
+                      height: MediaQuery.of(context).size.height / 80,
                     ),
                     Container(
-
                       width: MediaQuery.of(context).size.width / 1.4,
                       height: 40,
                       decoration: BoxDecoration(
@@ -75,7 +71,7 @@ class _LoginPageState  extends State<LoginPage> {
                           controller: emailController,
                           keyboardType: TextInputType.emailAddress,
                           decoration: const InputDecoration(
-                            hintText: "something@gmail.com",
+                            hintText: "example@gmail.com",
                             border: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.black),
                             ),
@@ -88,7 +84,7 @@ class _LoginPageState  extends State<LoginPage> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 30,
+                      height: MediaQuery.of(context).size.height / 80,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 1.4,
@@ -126,25 +122,26 @@ class _LoginPageState  extends State<LoginPage> {
                         children: [
                           MaterialButton(
                             onPressed: () {},
-                            child: const Text("Forgot Password"),
+                            child: const Text(
+                              "Forgot Password",
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 40,
                     ),
                     const CustomButton(
                       height: 44,
                       inputText: 'Sign In',
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 20,
-                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("I'm a new user."),
+                        const Text("Don't have an account?",style: TextStyle(
+                          fontSize: 12,
+                        ),),
                         MaterialButton(
                           onPressed: () {
                             Navigator.push(
@@ -162,7 +159,44 @@ class _LoginPageState  extends State<LoginPage> {
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 1.3,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("or"),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 80,
+                              ),
+                              GestureDetector(
+                                  child: Image.asset(
+                                    "google.png",
+                                    width: 240,
+                                  ),
+                                  onTap: () {
+                                    Provider.of<LoginController>(context,
+                                            listen: false)
+                                        .googleLogin();
+                                    print("gneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\n\n\n");
+                                  }),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              GestureDetector(
+                                  child: Image.asset(
+                                    "fb.png",
+                                    width: 240,
+                                  ),
+                                  onTap: () {
+                                    Provider.of<LoginController>(context,
+                                            listen: false)
+                                        .facebooklogin();
+                                  }),
+                            ],
+                          ),
+                        )),
                   ],
                 ),
               ),

@@ -37,6 +37,9 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  provider: ^6.0.3
+  google_sign_in: ^5.4.1
+  flutter_facebook_auth: ^4.4.1
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +72,8 @@ flutter:
     - logo_car_fullname.png
     - logo_circular.png
     - logo_fullname.png
+    - fb.png
+    - google.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:greenpark/pages/LoginPage.dart';
-import 'package:greenpark/pages/register.dart';
+import 'package:greenpark/pages/RegistrationPage.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
