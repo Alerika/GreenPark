@@ -7,8 +7,7 @@ import 'package:greenpark/pages/WelcomeUserPage.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -28,10 +27,25 @@ class _LoginPageState extends State<LoginPage> {
 // string for displaying the error Message
   String? errorMessage;
 
+  Future signIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim());
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
+        child: Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
@@ -95,26 +109,29 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 1.4,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: const Color(0xff0d7703),
-                      ),
-                      child: MaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => WelcomeUserPage(),
+                    GestureDetector(
+                      onTap: signIn,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 1.4,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: const Color(0xff0d7703),
+                        ),
+                        child: MaterialButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => WelcomeUserPage(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Sign In',
+                            style: TextStyle(
+                              color: Colors.white,
                             ),
-                          );
-                        },
-                        child: const Text(
-                          'Sign In',
-                          style: TextStyle(
-                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -191,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
-    );
+    ));
   }
 
   Container emailField() {

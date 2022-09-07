@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'LoginPage.dart';
@@ -10,15 +11,21 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+  // editing controller
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
-  @override
+  // firebase
+  final _auth = FirebaseAuth.instance;
+
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
+        child: Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
@@ -82,7 +89,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 30,
+                      height: MediaQuery.of(context).size.height / 100,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 1.4,
@@ -113,7 +120,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 30,
+                      height: MediaQuery.of(context).size.height / 100,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 1.4,
@@ -144,7 +151,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 30,
+                      height: MediaQuery.of(context).size.height / 100,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 1.4,
@@ -176,66 +183,107 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 40,
+                      height: MediaQuery.of(context).size.height / 100,
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 1.4,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: const Color(0xff0d7703),
-                      ),
-                      child: MaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginPage(title: ''),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'Sign Up',
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
+                    confirmPasswordField(),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 40,
+                      height: MediaQuery.of(context).size.height / 30,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("I'm already a member."),
-                        MaterialButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginPage(
-                                  title: '',
-                                ),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            "Sign In",
-                            style: TextStyle(
-                              color: Color(0xff0d7703),
-                            ),
-                          ),
-                        ),
-                      ],
+                    singUpButton(),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 100,
                     ),
+                    singInField(),
                   ],
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
+    ));
+  }
+
+  Container confirmPasswordField() {
+    return Container(
+      width: MediaQuery.of(context).size.width / 1.4,
+      height: 40,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 5.0,
+          right: 5.0,
+        ),
+        child: TextFormField(
+          obscureText: true,
+          keyboardType: TextInputType.text,
+          decoration: const InputDecoration(
+            hintText: "Confirm Password",
+            border: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.black),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.black),
+            ),
+          ),
+          cursorColor: Colors.black,
+        ),
+      ),
+    );
+  }
+
+  Container singUpButton() {
+    return Container(
+      width: MediaQuery.of(context).size.width / 1.4,
+      height: 44,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: const Color(0xff0d7703),
+      ),
+      child: MaterialButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LoginPage(),
+            ),
+          );
+        },
+        child: Text(
+          'Sign Up',
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Row singInField() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text("I'm already a member."),
+        MaterialButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoginPage(),
+              ),
+            );
+          },
+          child: const Text(
+            "Sign In",
+            style: TextStyle(
+              color: Color(0xff0d7703),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

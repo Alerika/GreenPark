@@ -17,7 +17,7 @@ class App extends StatelessWidget {
           )
         ],
         child: MaterialApp(
-          title: 'Email And Password Login',
+          title: 'Start application',
           theme: ThemeData(
             primarySwatch: Colors.green,
           ),

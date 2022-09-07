@@ -24,7 +24,7 @@ class _WelcomeUserPageState extends State<WelcomeUserPage> {
         .doc(user!.uid)
         .get()
         .then((value) {
-      this.loggedInUser = UserModel.fromMap(value.data());
+      loggedInUser = UserModel.fromMap(value.data());
       setState(() {});
     });
   }
@@ -32,6 +32,7 @@ class _WelcomeUserPageState extends State<WelcomeUserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text("Welcome"),
         centerTitle: true,
@@ -83,6 +84,6 @@ class _WelcomeUserPageState extends State<WelcomeUserPage> {
   Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginPage(title: "Logout succes. Welcome, login to use this app!")));
+        MaterialPageRoute(builder: (context) => LoginPage()));
   }
 }
