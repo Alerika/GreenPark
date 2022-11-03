@@ -20,7 +20,7 @@ Widget App() {
       providers: [
         ChangeNotifierProvider(
           create: (context) => LoginController(),
-          child: WelcomePage(),
+          child: const WelcomePage(),
         )
       ],
       child: MaterialApp(

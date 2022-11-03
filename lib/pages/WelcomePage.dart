@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:greenpark/pages/ChangeLoginStatePage.dart';
 import 'package:greenpark/pages/LoginPage.dart';
 import 'package:greenpark/pages/RegistrationPage.dart';
 
@@ -66,7 +67,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
+                      builder: (context) => const ChangeLoginStatePage(),
                     ),
                   );
                 },

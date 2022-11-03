@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'LoginPage.dart';
 
 class RegistrationPage extends StatefulWidget {
-  RegistrationPage({Key? key}) : super(key: key);
+  const RegistrationPage({Key? key}) : super(key: key);
 
   @override
   _RegistrationPageState createState() => _RegistrationPageState();
@@ -12,15 +13,57 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   // editing controller
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  Future signUp() async {
+    if (passwordConfirmed()) {
+      //create user
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      //add user details
+      addUserDetails(_nameController.text.trim(), _phoneController.text.trim(),
+          _emailController.text.trim(), _passwordController.text.trim());
+    }
+  }
+
+  Future addUserDetails(String fullName, String phoneNumber, String email,
+      String password) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'fullName': fullName,
+      'phoneNumber': phoneNumber,
+      'email': email,
+      'password': password,
+    });
+  }
+
+  bool passwordConfirmed() {
+    if (_confirmPasswordController.text.trim() ==
+        _passwordController.text.trim()) {
+      return true;
+    }
+    return false;
+  }
 
   // firebase
   final _auth = FirebaseAuth.instance;
 
+  @override
   Widget build(BuildContext context) {
     return Material(
         child: Scaffold(
@@ -73,7 +116,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           right: 5.0,
                         ),
                         child: TextFormField(
-                          controller: nameController,
+                          controller: _nameController,
                           keyboardType: TextInputType.text,
                           decoration: const InputDecoration(
                             hintText: "Full Name",
@@ -104,7 +147,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           right: 5.0,
                         ),
                         child: TextFormField(
-                          controller: phoneController,
+                          controller: _phoneController,
                           keyboardType: TextInputType.phone,
                           decoration: const InputDecoration(
                             hintText: "Phone Number",
@@ -135,7 +178,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           right: 5.0,
                         ),
                         child: TextFormField(
-                          controller: emailController,
+                          controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           decoration: const InputDecoration(
                             hintText: "something@gmail.com",
@@ -167,7 +210,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         ),
                         child: TextFormField(
                           obscureText: true,
-                          controller: passwordController,
+                          controller: _passwordController,
                           keyboardType: TextInputType.text,
                           decoration: const InputDecoration(
                             hintText: "Password",
@@ -218,6 +261,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           right: 5.0,
         ),
         child: TextFormField(
+          controller: _confirmPasswordController,
           obscureText: true,
           keyboardType: TextInputType.text,
           decoration: const InputDecoration(
@@ -245,6 +289,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       ),
       child: MaterialButton(
         onPressed: () {
+          signUp();
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -252,9 +297,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
           );
         },
-        child: Text(
+        child: const Text(
           'Sign Up',
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
           ),
         ),

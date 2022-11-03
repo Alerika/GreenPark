@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:greenpark/controllers/login_controller.dart';
 import 'package:greenpark/pages/ForgotPasswordPage.dart';
 import 'package:greenpark/pages/RegistrationPage.dart';
-import 'package:greenpark/pages/WelcomeUserPage.dart';
+import 'package:greenpark/pages/ChangeLoginStatePage.dart';
+import 'package:greenpark/pages/WelcomeUserLoggedPage.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -123,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => WelcomeUserPage(),
+                                builder: (context) => WelcomeUserLoggedPage(),
                               ),
                             );
                           },
@@ -182,8 +183,6 @@ class _LoginPageState extends State<LoginPage> {
                                     Provider.of<LoginController>(context,
                                             listen: false)
                                         .googleLogin();
-                                    print(
-                                        "gneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\n\n\n");
                                   }),
                               const SizedBox(
                                 height: 10,
