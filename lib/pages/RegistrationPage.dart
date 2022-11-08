@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:email_validator/email_validator.dart';
 import 'LoginPage.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -12,6 +12,7 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+  final formKey = GlobalKey<FormState>();
   // editing controller
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -30,15 +31,29 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   Future signUp() async {
+    final isValid = formKey.currentState!.validate();
+    if(!isValid) return;
     if (passwordConfirmed()) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const Center(
+                child: CircularProgressIndicator(),
+              ));
       //create user
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim());
+      } on FirebaseAuthException catch (e) {
+        print(e);
+        Utils.showSnackBar(e.message);
+      }
       //add user details
       addUserDetails(_nameController.text.trim(), _phoneController.text.trim(),
           _emailController.text.trim(), _passwordController.text.trim());
+      //navigator.of(context) not working!
+      navigatorKey.currentState?.popUntil((route) => route.isFirst);
     }
   }
 
@@ -66,6 +81,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
+
+        child:Form(
+        key: formKey,
         child: Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
@@ -189,6 +207,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               borderSide: BorderSide(color: Colors.black),
                             ),
                           ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (email) =>
+                              email != null && !EmailValidator.validate(email)
+                                  ? 'Enter a valid mail'
+                                  : null,
                           cursorColor: Colors.black,
                         ),
                       ),
@@ -221,6 +244,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               borderSide: BorderSide(color: Colors.black),
                             ),
                           ),
+                          validator: (value) =>
+                          value != null && value.length< 8
+                              ? 'Enter min 8 characters'
+                              : null,
                           cursorColor: Colors.black,
                         ),
                       ),
@@ -244,7 +271,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           ],
         ),
       ),
-    ));
+    )));
   }
 
   Container confirmPasswordField() {
@@ -290,12 +317,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       child: MaterialButton(
         onPressed: () {
           signUp();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => LoginPage(),
-            ),
-          );
+         const LoginPage();
         },
         child: const Text(
           'Sign Up',

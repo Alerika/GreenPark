@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:greenpark/pages/ChangeLoginStatePage.dart';
-import 'package:greenpark/pages/LoginPage.dart';
 import 'package:greenpark/pages/RegistrationPage.dart';
+
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -15,6 +15,7 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -40,7 +41,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RegistrationPage(),
+                      builder: (context) => const RegistrationPage(),
                     ),
                   );
                 },

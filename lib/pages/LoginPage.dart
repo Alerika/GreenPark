@@ -7,6 +7,8 @@ import 'package:greenpark/pages/ChangeLoginStatePage.dart';
 import 'package:greenpark/pages/WelcomeUserLoggedPage.dart';
 import 'package:provider/provider.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -29,9 +31,21 @@ class _LoginPageState extends State<LoginPage> {
   String? errorMessage;
 
   Future signIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim());
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ));
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+    //navigator.of(context) not working!
+    navigatorKey.currentState?.popUntil((route) => route.isFirst);
   }
 
   @override
@@ -86,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: MediaQuery.of(context).size.height / 80,
                     ),
                     passwordField(),
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width / 1.3,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -96,7 +110,8 @@ class _LoginPageState extends State<LoginPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ForgotPasswordPage(),
+                                  builder: (context) =>
+                                      const ForgotPasswordPage(),
                                 ),
                               );
                             },
@@ -121,12 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         child: MaterialButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => WelcomeUserLoggedPage(),
-                              ),
-                            );
+                            signIn();
                           },
                           child: const Text(
                             'Sign In',
@@ -151,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => RegistrationPage(),
+                                builder: (context) => const RegistrationPage(),
                               ),
                             );
                           },
@@ -164,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                    Container(
+                    SizedBox(
                         width: MediaQuery.of(context).size.width / 1.3,
                         child: Center(
                           child: Column(
