@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import '../utils/Utils.dart';
 import 'LoginPage.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -47,7 +48,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
             password: _passwordController.text.trim());
       } on FirebaseAuthException catch (e) {
         print(e);
-        Utils.showSnackBar(e.message);
       }
       //add user details
       addUserDetails(_nameController.text.trim(), _phoneController.text.trim(),

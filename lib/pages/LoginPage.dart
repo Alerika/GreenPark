@@ -1,10 +1,11 @@
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:greenpark/controllers/login_controller.dart';
+import 'package:greenpark/pages/AlertDialogPopUp.dart';
 import 'package:greenpark/pages/ForgotPasswordPage.dart';
 import 'package:greenpark/pages/RegistrationPage.dart';
-import 'package:greenpark/pages/ChangeLoginStatePage.dart';
-import 'package:greenpark/pages/WelcomeUserLoggedPage.dart';
 import 'package:provider/provider.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -19,6 +20,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   // form key
   final _formKey = GlobalKey<FormState>();
+  bool validEmail = true;
+  bool validPassword = true;
 
   // editing controller
   TextEditingController emailController = TextEditingController();
@@ -31,19 +34,16 @@ class _LoginPageState extends State<LoginPage> {
   String? errorMessage;
 
   Future signIn() async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ));
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
     } on FirebaseAuthException catch (e) {
       print(e);
+      AlertDialogPopup.showPopUp(context, "ERRORE",
+          "Account inesistente oppure email o password errati. Si prega di riprovare se si è in possesso di un account altrimenti crearne uno nuovo");
     }
+
     //navigator.of(context) not working!
     navigatorKey.currentState?.popUntil((route) => route.isFirst);
   }
@@ -238,15 +238,12 @@ class _LoginPageState extends State<LoginPage> {
           controller: emailController,
           keyboardType: TextInputType.emailAddress,
           validator: (value) {
-            if (value!.isEmpty) {
-              return ("Please Enter Your Email");
-            }
             // reg expression for email validation
-            if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                .hasMatch(value)) {
-              return ("Please Enter a valid email");
+            if (value!.isEmpty ||
+                (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                    .hasMatch(value))) {
+              validEmail = false;
             }
-            return null;
           },
           onSaved: (value) {
             emailController.text = value!;
@@ -285,12 +282,8 @@ class _LoginPageState extends State<LoginPage> {
           autofocus: false,
           controller: passwordController,
           validator: (value) {
-            RegExp regex = new RegExp(r'^.{6,}$');
-            if (value!.isEmpty) {
-              return ("Password is required for login");
-            }
-            if (!regex.hasMatch(value)) {
-              return ("Enter Valid Password(Min. 6 Character)");
+            if (value!.isEmpty || (!RegExp(r'^.{6,}$').hasMatch(value))) {
+              validPassword = false;
             }
           },
           onSaved: (value) {

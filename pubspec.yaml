@@ -29,13 +29,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^2.1.1
-  firebase_auth: ^4.1.1
-  cloud_firestore: ^4.0.4
+  firebase_core: ^2.2.0
+  firebase_auth: ^4.1.2
+  cloud_firestore: ^4.0.5
   email_validator: ^2.1.17
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.5
+  flutter_alert: ^0.4.0
   provider: ^6.0.3
   google_sign_in: ^5.4.2
   flutter_facebook_auth: ^5.0.6
@@ -52,6 +53,26 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
+  #depedency needed to change luncher icon
+  flutter_launcher_icons: "^0.11.0"
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "lib/assets/launcherIcon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "path/to/image.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "path/to/image.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "path/to/image.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -100,3 +121,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+

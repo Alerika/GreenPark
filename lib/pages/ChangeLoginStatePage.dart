@@ -8,7 +8,6 @@ class ChangeLoginStatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("ooooooo");
     return Scaffold(
       body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
