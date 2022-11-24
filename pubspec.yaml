@@ -40,6 +40,8 @@ dependencies:
   provider: ^6.0.3
   google_sign_in: ^5.4.2
   flutter_facebook_auth: ^5.0.6
+  geolocator: ^9.0.2
+  google_maps_flutter: ^2.2.1
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +55,10 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
+  #dependency to use geolocation:
+  geolocator: ^9.0.2
+  #dependency to view google maps
+  google_maps_flutter: ^2.2.1
   #depedency needed to change luncher icon
   flutter_launcher_icons: "^0.11.0"
 
