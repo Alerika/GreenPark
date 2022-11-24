@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:greenpark/controllers/login_controller.dart';
@@ -34,18 +32,35 @@ class _LoginPageState extends State<LoginPage> {
   String? errorMessage;
 
   Future signIn() async {
+    bool registeredEmail = false;
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
+      registeredEmail = true;
     } on FirebaseAuthException catch (e) {
       print(e);
-      AlertDialogPopup.showPopUp(context, "ERRORE",
-          "Account inesistente oppure email o password errati. Si prega di riprovare se si è in possesso di un account altrimenti crearne uno nuovo");
+      String errorCauseMessage = "";
+      String errorMessage = "";
+      if (validEmail && !registeredEmail) {
+        errorCauseMessage = "ERROR EMAIL";
+        errorMessage = "This account don't exist create a new one";
+      } else {
+        errorCauseMessage = "ERROR";
+        errorMessage = "Wrong email or password. Please try again ";
+      }
+      AlertDialogPopup.showPopUp(context, errorCauseMessage, errorMessage);
     }
 
     //navigator.of(context) not working!
     navigatorKey.currentState?.popUntil((route) => route.isFirst);
+    Navigator.of(context).pop();
   }
 
   @override

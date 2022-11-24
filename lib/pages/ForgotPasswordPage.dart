@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:greenpark/pages/AlertDialogPopUp.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -21,24 +22,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: _emailController.text.trim());
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            content: Text(
-                'Password reset link sent! Check your email and then try to login. '),
-          );
-        },
-      );
+      AlertDialogPopup.showPopUp(context, "SUCCESS",
+          'Password reset link sent! Check your email and then try to login. If you have not received anything, please check your spam or make sure you have entered the correct e-mail.');
     } on FirebaseAuthException catch (e) {
       print(e);
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: Text(e.message.toString()),
-            );
-          });
+      AlertDialogPopup.showPopUp(context, "ERROR",
+          'Something went wrong. Try again to reset the password!');
     }
   }
 
@@ -72,7 +61,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       height: MediaQuery.of(context).size.height / 70,
                     ),
                     const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 70),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 25, vertical: 70),
                       child: Text(
                         'Enter your Email and we will sent you a password reset link',
                         textAlign: TextAlign.center,

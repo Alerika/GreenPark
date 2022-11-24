@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
+import 'package:greenpark/pages/MapViewer.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({required Key key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   final String title = 'Personal Budget';
 
@@ -10,65 +10,51 @@ class HomePage extends StatefulWidget {
   _HomePage createState() => _HomePage();
 }
 
-
 class _HomePage extends State<HomePage> {
-  int _selectedIndex=0;
+  int _selectedIndex = 0;
+
+  setTabs(BuildContext context) {
+    var tabs = [
+     // MapViewer.map(context),
+      MyApp(),
+      Center(
+        child: Text('Elenco'),
+      ),
+      Center(
+        child: Text('Search'),
+      ),
+      Center(
+        child: Text('Oggi'),
+      ),
+      Center(
+        child: Text('Altro'),
+      ),
+    ];
+    return tabs;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(widget.title),
-          actions: <Widget>[
-            IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () => {}),
-            IconButton(
-                icon: const Icon(Icons.refresh),
-                onPressed: () => {}),
-          ]
-      ),
-
-      body: Container(),
-
-      //  bottomNavigationBar: BottomAppBar(
-      //    child: Container(
-      //      color: Colors.grey,
-      //      height: 50,
-      //      child: Row(
-      //        mainAxisAlignment: MainAxisAlignment.spaceAround,
-      //        children: <Widget>[
-      //          FlatButton(
-      //            child: Text("Elenco"),
-      //            onPressed: () {},
-      //          ),
-      //          FlatButton(
-      //            child: Text("Dettaglio"),
-      //            onPressed: () {},
-      //          ),
-      //          FlatButton(
-      //            child: Text("Totali"),
-      //            onPressed: () {},
-      //          )
-      //        ],
-      //      ),
-      //    ),
-      //  ),
-
+      appBar: AppBar(title: Text(widget.title), actions: <Widget>[
+        IconButton(icon: const Icon(Icons.settings), onPressed: () => {}),
+        IconButton(icon: const Icon(Icons.refresh), onPressed: () => {}),
+      ]),
+      body: setTabs(context)[_selectedIndex], //Container(),
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.shifting,
-          selectedItemColor: Colors.amber[800],
-          unselectedItemColor: Colors.grey,
+          selectedItemColor: Colors.lightGreen[900],
+          unselectedItemColor: Colors.white,
           currentIndex: _selectedIndex,
           onTap: (_index) {
             setState(() {
               _selectedIndex = _index;
             });
           },
-          items:  const <BottomNavigationBarItem> [
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-                backgroundColor: Colors.green,
+              backgroundColor: Colors.green,
               label: 'Home',
             ),
             BottomNavigationBarItem(
@@ -79,37 +65,19 @@ class _HomePage extends State<HomePage> {
             BottomNavigationBarItem(
               icon: Icon(Icons.search),
               backgroundColor: Colors.green,
-                label: 'Dettaglio',
+              label: 'Dettaglio',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_today),
               backgroundColor: Colors.green,
-                label: 'Oggi',
+              label: 'Oggi',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.apps),
               backgroundColor: Colors.green,
-                label: 'Altro',
+              label: 'Altro',
             ),
-          ]
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        tooltip: 'Aggiungi spesa',
-        onPressed: () {},
-      ),
-
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-      drawer: Drawer(
-          child: Container(
-              color: Colors.yellow,
-              padding: const EdgeInsets.fromLTRB(16, 32, 16, 16),
-              child: const Text("Demo Menu"))
-      ),
-
-
+          ]),
     );
   }
 }
