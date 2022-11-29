@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:greenpark/pages/ChangeLoginStatePage.dart';
+import 'package:greenpark/controllers/ChangeLoginStatePageController.dart';
 import 'package:greenpark/pages/RegistrationPage.dart';
 
 

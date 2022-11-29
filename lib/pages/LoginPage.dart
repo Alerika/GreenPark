@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:greenpark/controllers/login_controller.dart';
 import 'package:greenpark/pages/AlertDialogPopUp.dart';
+import 'package:greenpark/controllers/ChangeLoginStatePageController.dart';
 import 'package:greenpark/pages/ForgotPasswordPage.dart';
 import 'package:greenpark/pages/RegistrationPage.dart';
+import 'package:greenpark/pages/WelcomeUserLoggedPage.dart';
 import 'package:provider/provider.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -61,6 +63,12 @@ class _LoginPageState extends State<LoginPage> {
     //navigator.of(context) not working!
     navigatorKey.currentState?.popUntil((route) => route.isFirst);
     Navigator.of(context).pop();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ChangeLoginStatePage(),
+      ),
+    );
   }
 
   @override
@@ -205,22 +213,7 @@ class _LoginPageState extends State<LoginPage> {
                                     width: 240,
                                   ),
                                   onTap: () {
-                                    Provider.of<LoginController>(context,
-                                            listen: false)
-                                        .googleLogin();
-                                  }),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              GestureDetector(
-                                  child: Image.asset(
-                                    "fb.png",
-                                    width: 240,
-                                  ),
-                                  onTap: () {
-                                    Provider.of<LoginController>(context,
-                                            listen: false)
-                                        .facebooklogin();
+                                    LoginController().googleLogin();
                                   }),
                             ],
                           ),

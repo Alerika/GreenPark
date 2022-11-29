@@ -4,7 +4,7 @@ import 'package:greenpark/pages/MapViewer.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  final String title = 'Personal Budget';
+  final String title = 'GreenPark';
 
   @override
   _HomePage createState() => _HomePage();
@@ -16,15 +16,16 @@ class _HomePage extends State<HomePage> {
   setTabs(BuildContext context) {
     var tabs = [
      // MapViewer.map(context),
-      MyApp(),
+      MapViewer(),
+
       Center(
-        child: Text('Elenco'),
+        child: Text('Park list'),
       ),
       Center(
-        child: Text('Search'),
+        child: Text('Reserved parking: no parking nearby '),
       ),
       Center(
-        child: Text('Oggi'),
+        child: Text('today: no parking reserved yet'),
       ),
       Center(
         child: Text('Altro'),

@@ -39,13 +39,14 @@ dependencies:
   flutter_alert: ^0.4.0
   provider: ^6.0.3
   google_sign_in: ^5.4.2
-  flutter_facebook_auth: ^5.0.6
   geolocator: ^9.0.2
   google_maps_flutter: ^2.2.1
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -54,6 +55,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+
+  #dependencies to use a language choise:
 
   #dependency to use geolocation:
   geolocator: ^9.0.2
@@ -101,7 +104,6 @@ flutter:
     - fb.png
     - google.png
     - forgot_password.png
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

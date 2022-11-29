@@ -10,10 +10,10 @@ class WelcomeUserLoggedPage extends StatefulWidget {
 }
 
 class _WelcomeUserLoggedPageState extends State<WelcomeUserLoggedPage> {
-  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(32),

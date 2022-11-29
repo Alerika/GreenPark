@@ -39,6 +39,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
+
         decoration: const BoxDecoration(
           image: DecorationImage(
               alignment: Alignment.topCenter,
@@ -47,14 +48,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         child: Stack(
           children: <Widget>[
             Positioned(
-              bottom: 65,
+              bottom: 130,
               child: Container(
                 decoration: BoxDecoration(
                   color: const Color(0xB88BC34A),
-                  borderRadius: BorderRadius.circular(25.0),
+                  borderRadius: BorderRadius.circular(50.0),
                 ),
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 2,
+                height: (MediaQuery.of(context).size.height / 2) -120,
                 child: Column(
                   children: [
                     SizedBox(
@@ -62,7 +63,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     ),
                     const Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 25, vertical: 70),
+                          EdgeInsets.symmetric(horizontal: 25, vertical: 40),
                       child: Text(
                         'Enter your Email and we will sent you a password reset link',
                         textAlign: TextAlign.center,
@@ -70,11 +71,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 40,
+                      height: 10,
                     ),
                     emailField(),
-                    SizedBox(
-                      height: 30,
+                    const SizedBox(
+                      height: 10,
                     ),
                     MaterialButton(
                       onPressed: () {
