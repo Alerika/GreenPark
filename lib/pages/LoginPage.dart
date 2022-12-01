@@ -36,24 +36,27 @@ class _LoginPageState extends State<LoginPage> {
   Future signIn() async {
     bool registeredEmail = false;
     showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(child: CircularProgressIndicator());
-      },
-    );
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ));
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
       registeredEmail = true;
+      print("opsssssssssssssssssssssssssssssssss");
     } on FirebaseAuthException catch (e) {
       print(e);
       String errorCauseMessage = "";
       String errorMessage = "";
       if (validEmail && !registeredEmail) {
+        print("aaaaaaaaaaaaaaaaaaaaaaaaaaassssssss");
         errorCauseMessage = "ERROR EMAIL";
-        errorMessage = "This account don't exist create a new one";
+        errorMessage = "This  account don't exist create a new one";
       } else {
+        print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
         errorCauseMessage = "ERROR";
         errorMessage = "Wrong email or password. Please try again ";
       }
@@ -63,12 +66,6 @@ class _LoginPageState extends State<LoginPage> {
     //navigator.of(context) not working!
     navigatorKey.currentState?.popUntil((route) => route.isFirst);
     Navigator.of(context).pop();
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ChangeLoginStatePage(),
-      ),
-    );
   }
 
   @override

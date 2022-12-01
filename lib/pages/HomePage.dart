@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greenpark/pages/MapViewer.dart';
+import 'package:greenpark/pages/SettingsPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,20 +16,20 @@ class _HomePage extends State<HomePage> {
 
   setTabs(BuildContext context) {
     var tabs = [
-     // MapViewer.map(context),
+      // MapViewer.map(context),
       MapViewer(),
 
-      Center(
+      const Center(
         child: Text('Park list'),
       ),
-      Center(
+      const Center(
         child: Text('Reserved parking: no parking nearby '),
       ),
-      Center(
+      const Center(
         child: Text('today: no parking reserved yet'),
       ),
-      Center(
-        child: Text('Altro'),
+      const Center(
+        child: Text('no deleted/expired parking '),
       ),
     ];
     return tabs;
@@ -37,10 +38,29 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title), actions: <Widget>[
-        IconButton(icon: const Icon(Icons.settings), onPressed: () => {}),
-        IconButton(icon: const Icon(Icons.refresh), onPressed: () => {}),
-      ]),
+      appBar: AppBar(
+          title: GestureDetector(
+            child: Image.asset(
+              "logo_car_fullname.png",
+              width: 240,
+            ),
+          ),
+          actions: <Widget>[
+            IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () async => {
+                      await Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => SettingsUI()))
+                    }),
+            IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: () async => {
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()))
+                    }),
+          ]),
       body: setTabs(context)[_selectedIndex], //Container(),
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.shifting,
@@ -54,29 +74,29 @@ class _HomePage extends State<HomePage> {
           },
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.map),
               backgroundColor: Colors.green,
-              label: 'Home',
+              label: 'Map',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.list),
+              icon: Icon(Icons.local_parking),
               backgroundColor: Colors.green,
-              label: 'Elenco',
+              label: 'Parking',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
+              icon: Icon(Icons.local_parking),
               backgroundColor: Colors.green,
-              label: 'Dettaglio',
+              label: 'Reserved',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_today),
               backgroundColor: Colors.green,
-              label: 'Oggi',
+              label: 'today',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.apps),
+              icon: Icon(Icons.access_alarm_outlined),
               backgroundColor: Colors.green,
-              label: 'Altro',
+              label: 'deleted/expired',
             ),
           ]),
     );
