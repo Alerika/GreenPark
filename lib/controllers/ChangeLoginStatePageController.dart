@@ -26,3 +26,4 @@ class ChangeLoginStatePage extends StatelessWidget {
     );
   }
 }
+

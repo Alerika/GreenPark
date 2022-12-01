@@ -213,7 +213,14 @@ class _LoginPageState extends State<LoginPage> {
                                     width: 240,
                                   ),
                                   onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return const Center(child: CircularProgressIndicator());
+                                      },
+                                    );
                                     LoginController().googleLogin();
+                                    Navigator.of(context).pop();
                                   }),
                             ],
                           ),

@@ -29,7 +29,7 @@ class _WelcomeUserLoggedPageState extends State<WelcomeUserLoggedPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              user.email!,
+              user.displayName!,
               style:
                   const TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
             ),
