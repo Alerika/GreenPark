@@ -46,17 +46,14 @@ class _LoginPageState extends State<LoginPage> {
           email: emailController.text.trim(),
           password: passwordController.text.trim());
       registeredEmail = true;
-      print("opsssssssssssssssssssssssssssssssss");
     } on FirebaseAuthException catch (e) {
       print(e);
       String errorCauseMessage = "";
       String errorMessage = "";
       if (validEmail && !registeredEmail) {
-        print("aaaaaaaaaaaaaaaaaaaaaaaaaaassssssss");
         errorCauseMessage = "ERROR EMAIL";
         errorMessage = "This  account don't exist create a new one";
       } else {
-        print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
         errorCauseMessage = "ERROR";
         errorMessage = "Wrong email or password. Please try again ";
       }

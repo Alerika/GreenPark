@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AlertDialogPopup {
-  static Future<void> showPopUp(BuildContext context, String title, String content) {
+  static Future<void> showPopUp(
+      BuildContext context, String title, String content) {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -10,7 +11,7 @@ class AlertDialogPopup {
         content: SingleChildScrollView(child: Text(content)),
         actions: <Widget>[
           TextButton(
-            onPressed: () => Navigator.pop(context, 'OK'),
+            onPressed: () => Navigator.pop(context),
             child: const Text('OK'),
           ),
         ],

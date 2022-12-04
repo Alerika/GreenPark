@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:greenpark/pages/MapViewer.dart';
 import 'package:greenpark/pages/SettingsPage.dart';
 
+import '../utils/CarParkListView.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -19,8 +21,8 @@ class _HomePage extends State<HomePage> {
       // MapViewer.map(context),
       MapViewer(),
 
-      const Center(
-        child: Text('Park list'),
+      Center(
+        child: CarParkListViewList(),
       ),
       const Center(
         child: Text('Reserved parking: no parking nearby '),

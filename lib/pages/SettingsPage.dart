@@ -1,14 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'ForgotPasswordPage.dart';
 
 class SettingsUI extends StatelessWidget {
-  const SettingsUI({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Setting UI",
       home: EditProfilePage(),
@@ -17,26 +16,24 @@ class SettingsUI extends StatelessWidget {
 }
 
 class EditProfilePage extends StatefulWidget {
+  const EditProfilePage({Key? key}) : super(key: key);
+
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    super.dispose();
-  }
-
   bool showPassword = false;
   final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
+    var phoneNumber;
+    if (user.phoneNumber!.isEmpty) {
+      phoneNumber = "no number registered";
+    } else {
+      phoneNumber = user.phoneNumber!;
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -89,6 +86,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
               buildTextField("Full Name", user.displayName!),
               buildTextField("E-mail", user.email!),
+              buildTextField("Phone number", phoneNumber),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Row(
@@ -105,9 +103,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       },
                       child: const Text(
                         "Reset Password",
-
                         style: TextStyle(
-                          fontSize: 12,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.green,
+                          fontSize: 14,
                         ),
                       ),
                     ),
@@ -124,19 +123,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     width: MediaQuery.of(context).size.width / 2.5,
                     height: 40,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30.0),
-                        color: Colors.black12,
+                      borderRadius: BorderRadius.circular(50.0),
+                      color: Colors.black26,
                     ),
                     child: MaterialButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        deleteUser();
                       },
                       child: const Text(
                         'CANCEL',
                         style: TextStyle(
-                          fontSize: 14,
-                          letterSpacing: 2.2,
-                          color: Colors.green,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -145,21 +142,26 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     width: MediaQuery.of(context).size.width / 2.5,
                     height: 40,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30.0),
-                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(50.0),
+                      color: Colors.red[800],
                     ),
                     child: MaterialButton(
-                      onPressed: () { },
+                      onPressed: () {
+                        deleteUser();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ForgotPasswordPage(),
+                            ));
+                      },
                       child: const Text(
-                        'SAVE',
+                        'DELETE',
                         style: TextStyle(
-                          fontSize: 14,
-                          letterSpacing: 2.2,
                           color: Colors.white,
                         ),
                       ),
                     ),
-                  ),
+                  )
                 ],
               )
             ],
@@ -169,11 +171,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
+  void deleteUser() {
+    FirebaseAuth.instance.currentUser!.delete();
+  }
+
   Widget buildTextField(String labelText, String placeholder) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 35.0),
       child: TextField(
-        obscureText: showPassword,
+        enabled: false,
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.only(bottom: 3),
             labelText: labelText,
