@@ -7,6 +7,8 @@ import 'package:greenpark/pages/WelcomeUserLoggedPage.dart';
 import 'ForgotPasswordPage.dart';
 
 class SettingsUI extends StatelessWidget {
+  const SettingsUI({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -78,7 +80,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
             buildTextField("  Full Name", user.displayName!),
             buildTextField("  E-mail", user.email!),
-            buildTextField("  Phone number", phoneNumber),
+            buildTextField("  Phone number", '3284460629'),
             SizedBox(
               width: MediaQuery
                   .of(context)

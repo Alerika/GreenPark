@@ -16,7 +16,7 @@ class ParkSettingPage extends StatelessWidget {
 
   ParkModel parking;
 
-  ParkSettingPage(this.parking);
+  ParkSettingPage(this.parking, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +80,8 @@ class ParkSettingPage extends StatelessWidget {
         }
       }
     });
+    final docParkOriginal =
+        FirebaseFirestore.instance.collection('carParks').doc(parkModel!.id);
     ReservedParkModel? reservedPark;
     CarParkListViewList().readReservedParking().listen((listOfStrings) {
       for (ReservedParkModel myString in listOfStrings) {
@@ -95,8 +97,7 @@ class ParkSettingPage extends StatelessWidget {
       final docPark = FirebaseFirestore.instance
           .collection('reservedCarPark')
           .doc(reservedPark!.id);
-      final docParkOriginal =
-          FirebaseFirestore.instance.collection('carParks').doc();
+
       final DateTime end = DateTime.now();
       final Duration duration = end.difference(reservedPark!.timestampReserved);
       if (duration.inMinutes > 30 && reservedPark!.deletedOrExpired == false) {
@@ -172,6 +173,9 @@ class ParkSettingPage extends StatelessWidget {
       MaterialButton(
         color: Colors.green,
         onPressed: () {
+          docParkOriginal.update({
+            'numberParking': parking.numberParking-1,
+          });
           ReservedPark().createReservedParking(
               parkModel: ReservedParkModel(
                   deletedOrExpired: false,

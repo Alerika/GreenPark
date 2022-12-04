@@ -1,7 +1,3 @@
-import 'dart:ffi';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class ParkModel {
   String description;
   double latitude;
@@ -19,11 +15,11 @@ class ParkModel {
   //  json in object
   // ParkModel parkModel = ParkModel.fromJson(jsonDecode(objText));
   static ParkModel fromJson(Map<String, dynamic> json) => ParkModel(
-      description: json['description'] as String,
-      latitude: json['latitude'] as double,
-      longitude: json['longitude'] as double,
-      numberParking: json['numberParking'] as int,
-      id: json['id'] as String);
+      description: json['description'],
+      latitude: json['latitude'],
+      longitude: json['longitude'],
+      numberParking: json['numberParking'],
+      id: json['id']);
 
   @override
   String toString() {
