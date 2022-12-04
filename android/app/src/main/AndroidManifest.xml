@@ -5,11 +5,6 @@
             android:name="${applicationName}"
             android:icon="@mipmap/ic_launcher">
 
-        <!--START facebook -->
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
-
-        <!--END facebook -->
 
         <activity
                 android:name=".MainActivity"
@@ -57,5 +52,7 @@
                    android:value="AIzaSyBZYLUQ2bjcy5bHFrAKfE7iKhL4x2sNgz0"/>
 
     </application>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

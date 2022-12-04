@@ -8,8 +8,8 @@ class ReservedParkModel {
   String description;
   bool deletedOrExpired;
   bool reserved;
-  Double latitude;
-  Double longitude;
+  double latitude;
+  double longitude;
   DateTime timestampReserved;
 
   ReservedParkModel(
@@ -31,8 +31,8 @@ class ReservedParkModel {
         description: json['description'] as String,
         deletedOrExpired: json['deletedOrExpired'] as bool,
         reserved: json['reserved'] as bool,
-        latitude: json['latitude'] as Double,
-        longitude: json['longitude'] as Double,
+        latitude: json['latitude'] as double,
+        longitude: json['longitude'] as double,
         timestampReserved: (json['timestampReserved'] as Timestamp).toDate());
   }
 
@@ -48,6 +48,8 @@ class ReservedParkModel {
         'longitude': longitude,
         'timestampReserved': timestampReserved,
       };
+
+
 
   @override
   String toString() {

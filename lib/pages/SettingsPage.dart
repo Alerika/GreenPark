@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:greenpark/pages/LoginPage.dart';
+import 'package:greenpark/pages/WelcomeUserLoggedPage.dart';
 
 import 'ForgotPasswordPage.dart';
 
@@ -28,144 +30,142 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    var phoneNumber;
+    String phoneNumber;
     if (user.phoneNumber!.isEmpty) {
       phoneNumber = "no number registered";
     } else {
       phoneNumber = user.phoneNumber!;
     }
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 1,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.green,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: Container(
-        padding: const EdgeInsets.only(left: 16, top: 1, right: 16),
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: ListView(
-            children: [
-              const Text(
-                "Edit Profile",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Center(
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 230,
-                      height: 230,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Theme.of(context).scaffoldBackgroundColor),
-                          shape: BoxShape.circle,
-                          image: const DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage('logo_circular.png'),
-                          )),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              buildTextField("Full Name", user.displayName!),
-              buildTextField("E-mail", user.email!),
-              buildTextField("Phone number", phoneNumber),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    MaterialButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ForgotPasswordPage(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        "Reset Password",
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          color: Colors.green,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 35,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        decoration: const BoxDecoration(
+          color: Color(0x9192C74E),
+        ),
+        child: ListView(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+              "Delete Profile",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Stack(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width / 2.5,
-                    height: 40,
+                    width: 230,
+                    height: 230,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.black26,
-                    ),
-                    child: MaterialButton(
-                      onPressed: () {
-                        deleteUser();
-                      },
-                      child: const Text(
-                        'CANCEL',
-                        style: TextStyle(
-                          color: Colors.white,
+                        border: Border.all(
+                            color: Theme
+                                .of(context)
+                                .scaffoldBackgroundColor),
+                        shape: BoxShape.circle,
+                        image: const DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage('logo_circular.png'),
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            buildTextField("  Full Name", user.displayName!),
+            buildTextField("  E-mail", user.email!),
+            buildTextField("  Phone number", phoneNumber),
+            SizedBox(
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPasswordPage(),
                         ),
+                      );
+                    },
+                    child: const Text(
+                      "Reset Password",
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.green,
+                        fontSize: 14,
                       ),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2.5,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.red[800],
-                    ),
-                    child: MaterialButton(
-                      onPressed: () {
-                        deleteUser();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ForgotPasswordPage(),
-                            ));
-                      },
-                      child: const Text(
-                        'DELETE',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 35,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 2.5,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.0),
+                    color: Colors.black26,
+                  ),
+                  child: MaterialButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'CANCEL',
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
                     ),
-                  )
-                ],
-              )
-            ],
-          ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 2.5,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.0),
+                    color: Colors.red[800],
+                  ),
+                  child: MaterialButton(
+                    onPressed: () {
+                      deleteUser();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ));
+                    },
+                    child: const Text(
+                      'DELETE',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
         ),
       ),
     );

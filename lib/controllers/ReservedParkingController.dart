@@ -16,11 +16,11 @@ class ReservedPark {
   }
 
   //read park list
-  Stream<List<ReservedParkModel>> readReservedParking() => FirebaseFirestore.instance
-      .collection('reservedCarPark')
-      .snapshots()
-      .map((snapshots) =>
-          snapshots.docs.map((doc) => ReservedParkModel.fromJson(doc.data())).toList());
+  Stream<List<ReservedParkModel>> readReservedParking() =>
+      FirebaseFirestore.instance.collection('reservedCarPark').snapshots().map(
+          (snapshots) => snapshots.docs
+              .map((doc) => ReservedParkModel.fromJson(doc.data()))
+              .toList());
 
 //read single park
   Future<ReservedParkModel?> readPark() async {
@@ -36,6 +36,8 @@ class ReservedPark {
   Widget buildParking(ReservedParkModel parkModel) => ListTile(
         leading: CircleAvatar(child: Text('${parkModel.description}')),
       );
+
+  ReservedPark();
 
 //update/delete use final doc = ...collection('park').doc('id');
 //for specific fields

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:greenpark/pages/AlertDialogPopUp.dart';
+import 'package:greenpark/utils/AlertDialogPopUp.dart';
 import 'package:greenpark/pages/LoginPage.dart';
 import 'package:greenpark/pages/WelcomeUserLoggedPage.dart';
 

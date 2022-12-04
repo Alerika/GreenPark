@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:greenpark/controllers/login_controller.dart';
-import 'package:greenpark/pages/AlertDialogPopUp.dart';
+import 'package:greenpark/utils/AlertDialogPopUp.dart';
 import 'package:greenpark/controllers/ChangeLoginStatePageController.dart';
 import 'package:greenpark/pages/ForgotPasswordPage.dart';
+import 'package:greenpark/pages/HomePage.dart';
 import 'package:greenpark/pages/RegistrationPage.dart';
 import 'package:greenpark/pages/WelcomeUserLoggedPage.dart';
 import 'package:provider/provider.dart';
@@ -26,21 +27,20 @@ class _LoginPageState extends State<LoginPage> {
   // editing controller
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
 
-  // firebase
-  final _auth = FirebaseAuth.instance;
+  }
 
 // string for displaying the error Message
   String? errorMessage;
 
   Future signIn() async {
     bool registeredEmail = false;
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ));
+
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
@@ -60,17 +60,9 @@ class _LoginPageState extends State<LoginPage> {
       AlertDialogPopup.showPopUp(context, errorCauseMessage, errorMessage);
     }
 
-    //navigator.of(context) not working!
-    navigatorKey.currentState?.popUntil((route) => route.isFirst);
-    Navigator.of(context).pop();
   }
 
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
+
 
   @override
   Widget build(BuildContext context) {

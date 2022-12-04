@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greenpark/pages/MapViewer.dart';
+import 'package:greenpark/utils/MapViewer.dart';
 import 'package:greenpark/pages/SettingsPage.dart';
 
 import '../utils/CarParkListView.dart';
@@ -20,7 +20,6 @@ class _HomePage extends State<HomePage> {
     var tabs = [
       // MapViewer.map(context),
       MapViewer(),
-
       Center(
         child: CarParkListViewList(),
       ),

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:greenpark/pages/AlertDialogPopUp.dart';
+import 'package:greenpark/utils/AlertDialogPopUp.dart';
 import 'LoginPage.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -59,16 +59,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
             .createUserWithEmailAndPassword(
                 email: _emailController.text.trim(),
                 password: _passwordController.text.trim())
-            .then((value) => const LoginPage());
+            .then((value) => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LoginPage(),
+            )));
         registeredEmail = true;
       } on FirebaseAuthException catch (e) {
         print(e);
         String errorCauseMessage = "";
         String errorMessage = "";
+       print("aaaaaaaaaaaaa");
         if (!registeredEmail) {
           errorCauseMessage = "ERROR EMAIL";
           errorMessage = "This account already exist. Sing in now!";
+          print("bbbbbbbb");
         } else {
+          print("nnnn");
           errorCauseMessage = "ERROR";
           errorMessage = "Wrong email or password. Please try again ";
         }
@@ -351,7 +358,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
       child: MaterialButton(
         onPressed: () {
           signUp();
-          const LoginPage();
         },
         child: const Text(
           'Sign Up',
