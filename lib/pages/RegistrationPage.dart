@@ -69,13 +69,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
         print(e);
         String errorCauseMessage = "";
         String errorMessage = "";
-       print("aaaaaaaaaaaaa");
         if (!registeredEmail) {
           errorCauseMessage = "ERROR EMAIL";
           errorMessage = "This account already exist. Sing in now!";
-          print("bbbbbbbb");
         } else {
-          print("nnnn");
           errorCauseMessage = "ERROR";
           errorMessage = "Wrong email or password. Please try again ";
         }

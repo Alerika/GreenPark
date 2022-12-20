@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:greenpark/utils/CarParkTodayListViewList.dart';
 import 'package:greenpark/utils/MapViewer.dart';
 import 'package:greenpark/pages/SettingsPage.dart';
 
+import '../utils/CarParkDeletedExpiredListViewList.dart';
 import '../utils/CarParkListView.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,14 +25,14 @@ class _HomePage extends State<HomePage> {
       Center(
         child: CarParkListViewList(),
       ),
-      const Center(
+       Center(
         child: Text('Reserved parking: no parking nearby '),
       ),
-      const Center(
-        child: Text('today: no parking reserved yet'),
+       Center(
+        child: CarParkTodayListViewList(),
       ),
-      const Center(
-        child: Text('no deleted/expired parking '),
+       Center(
+        child: CarParkDeletedExpiredListViewList(),
       ),
     ];
     return tabs;
@@ -49,9 +51,9 @@ class _HomePage extends State<HomePage> {
           actions: <Widget>[
             IconButton(
                 icon: const Icon(Icons.settings),
-                onPressed: () async => {
-                      await Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => SettingsUI()))
+                onPressed: ()  => {
+                       Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const SettingsUI()))
                     }),
             IconButton(
                 icon: const Icon(Icons.refresh),

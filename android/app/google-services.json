@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "937191420605",
+    "firebase_url": "https://green-park-16f74-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "green-park-16f74",
     "storage_bucket": "green-park-16f74.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "937191420605-371cfr2pks4jr0dhs9193u8gkgmogchn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gp.greenpark",
+            "certificate_hash": "3df3a13829924d18148f0d5952abaca63c36c451"
+          }
+        },
         {
           "client_id": "937191420605-3pivf17rlq0d04edu5p85nvilh8cihqq.apps.googleusercontent.com",
           "client_type": 3

@@ -12,11 +12,9 @@ import 'package:greenpark/utils/AlertDialogPopUp.dart';
 import '../utils/CarParkListView.dart';
 
 class ParkSettingPage extends StatelessWidget {
-  final user = FirebaseAuth.instance.currentUser!;
+  ParkSettingPage(this.parking);
 
   ParkModel parking;
-
-  ParkSettingPage(this.parking, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +57,7 @@ class ParkSettingPage extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    upDate(context, isFull, parking),
+                    //upDate(context, isFull, parking),
                   ],
                 )
               ],
@@ -68,6 +66,7 @@ class ParkSettingPage extends StatelessWidget {
         ));
   }
 
+/*
   Widget upDate(BuildContext context, bool isFull, ParkModel parking) {
     bool deleted = false;
     bool expired = false;
@@ -203,5 +202,6 @@ class ParkSettingPage extends StatelessWidget {
         ),
       ),
     ]);
-  }
+  }*/
+
 }

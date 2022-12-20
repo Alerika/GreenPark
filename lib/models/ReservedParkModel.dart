@@ -24,7 +24,7 @@ class ReservedParkModel {
   // ParkModel parkModel = ParkModel.fromJson(jsonDecode(objText));
   factory ReservedParkModel.fromJson(dynamic json) {
     return ReservedParkModel(
-        id: json['id'],
+        id: json['id'] as String,
         user: json['user'] as String,
         description: json['description'] as String,
         deletedOrExpired: json['deletedOrExpired'] as bool,

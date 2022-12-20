@@ -34,7 +34,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     String phoneNumber;
     if (user.phoneNumber!.isEmpty) {
-      phoneNumber = "no number registered";
+      phoneNumber = "3284460629";
     } else {
       phoneNumber = user.phoneNumber!;
     }
@@ -80,7 +80,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
             buildTextField("  Full Name", user.displayName!),
             buildTextField("  E-mail", user.email!),
-            buildTextField("  Phone number", '3284460629'),
+            buildTextField("  Phone number", phoneNumber),
             SizedBox(
               width: MediaQuery
                   .of(context)

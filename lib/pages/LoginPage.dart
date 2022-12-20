@@ -27,25 +27,31 @@ class _LoginPageState extends State<LoginPage> {
   // editing controller
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  @override
-  void dispose() {
-    super.dispose();
-    emailController.dispose();
-    passwordController.dispose();
 
-  }
+  // firebase
+  final _auth = FirebaseAuth.instance;
 
 // string for displaying the error Message
   String? errorMessage;
 
   Future signIn() async {
     bool registeredEmail = false;
-
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ));
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
       registeredEmail = true;
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ));
     } on FirebaseAuthException catch (e) {
       print(e);
       String errorCauseMessage = "";
@@ -60,9 +66,17 @@ class _LoginPageState extends State<LoginPage> {
       AlertDialogPopup.showPopUp(context, errorCauseMessage, errorMessage);
     }
 
+    //navigator.of(context) not working!
+    navigatorKey.currentState?.popUntil((route) => route.isFirst);
+    Navigator.of(context).pop();
   }
 
-
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +216,8 @@ class _LoginPageState extends State<LoginPage> {
                                     showDialog(
                                       context: context,
                                       builder: (context) {
-                                        return const Center(child: CircularProgressIndicator());
+                                        return const Center(
+                                            child: CircularProgressIndicator());
                                       },
                                     );
                                     LoginController().googleLogin();
