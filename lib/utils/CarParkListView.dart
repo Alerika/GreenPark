@@ -3,11 +3,15 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import '../controllers/ReservedParkingController.dart';
 import '../models/ParkModel.dart';
 import '../models/ReservedParkModel.dart';
+import '../pages/HomePage.dart';
 import '../pages/ParkSettingPage.dart';
+import 'AlertDialogPopUp.dart';
 
 class CarParkListViewList extends StatefulWidget {
   CarParkListViewList({Key? key}) : super(key: key);
@@ -16,19 +20,17 @@ class CarParkListViewList extends StatefulWidget {
   @override
   State<CarParkListViewList> createState() => _CarParkListViewListState();
 
-  Stream<List<ParkModel>> readParking() =>
-      FirebaseFirestore.instance
-          .collection('carParks')
-          .snapshots()
-          .map((snapshots) =>
+  Stream<List<ParkModel>> readParking() => FirebaseFirestore.instance
+      .collection('carParks')
+      .snapshots()
+      .map((snapshots) =>
           snapshots.docs.map((doc) => ParkModel.fromJson(doc.data())).toList());
 
   Stream<List<ReservedParkModel>> readReservedParking() =>
       FirebaseFirestore.instance.collection('reservedCarPark').snapshots().map(
-              (snapshots) =>
-              snapshots.docs
-                  .map((doc) => ReservedParkModel.fromJson(doc.data()))
-                  .toList());
+          (snapshots) => snapshots.docs
+              .map((doc) => ReservedParkModel.fromJson(doc.data()))
+              .toList());
 }
 
 class _CarParkListViewListState extends State<CarParkListViewList> {
@@ -58,17 +60,13 @@ class _CarParkListViewListState extends State<CarParkListViewList> {
   }
 
   bool isParkingNearby(ParkModel parkModel) {
-    Position position = Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high) as Position;
-    double distanceInMeters = Geolocator.distanceBetween(
-        position.latitude, position.longitude, parkModel.latitude,
-        parkModel.longitude);
+    double distanceInMeters = Geolocator.distanceBetween(39.363144, 16.226298, parkModel.latitude, parkModel.longitude);
     return (distanceInMeters <= 1000);
   }
 
   Widget buildParking(ParkModel parkModel) {
     bool isNearby = isParkingNearby(parkModel);
-    if (isNearby) {
+    if (isNearby && parkModel.numberParking != 0) {
       return Card(
           child: ListTile(
               title: Text(parkModel.description),
@@ -79,7 +77,7 @@ class _CarParkListViewListState extends State<CarParkListViewList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ParkSettingPage(parkModel),
+                      builder: (context) => parkSettingPage(parkModel),
                     ));
               },
               leading: const CircleAvatar(
@@ -93,10 +91,8 @@ class _CarParkListViewListState extends State<CarParkListViewList> {
 
   Widget parkSettingPage(ParkModel parkModel) {
     final docParkOriginal =
-    FirebaseFirestore.instance.collection('carParks').doc(parkModel.id);
-    final docReservedPark = FirebaseFirestore.instance
-        .collection('reservedCarPark')
-        .doc(parkModel.id);
+        FirebaseFirestore.instance.collection('carParks').doc(parkModel.id);
+
     return Scaffold(
         appBar: AppBar(
           title: Text(parkModel.description),
@@ -129,19 +125,18 @@ class _CarParkListViewListState extends State<CarParkListViewList> {
                       height: 10,
                     ),
                     Text(
-                      '   Latitude: ${parkModel
-                          .latitude}\n   Longitude: ${parkModel.longitude}',
+                      '   Latitude: ${parkModel.latitude}\n   Longitude: ${parkModel.longitude}',
                       style: const TextStyle(
                         fontSize: 22,
                         color: Colors.green,
                       ),
                     ),
                     const SizedBox(
-                      height: 50,
+                      height: 40,
                     ),
-                    const Text(
-                      ' Do you want delete this booking?\n',
-                      style: TextStyle(
+                     Text(
+                      '   There are ${parkModel.numberParking} free parking yet \n\n Do you want reserve this car park?\n',
+                      style: const TextStyle(
                         fontSize: 22,
                         color: Colors.green,
                       ),
@@ -149,35 +144,33 @@ class _CarParkListViewListState extends State<CarParkListViewList> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     MaterialButton(
-                      color: Colors.green,
-                      onPressed: () {
-                        docReservedPark.update({
-                          'deletedOrExpired': true,
-                        });
-                        docParkOriginal.update({
-                          'numberParking': FieldValue.increment(1),
-                        });
-                        AlertDialogPopup.showPopUp(context, "SUCCESS",
-                            "The reservation has been cancelled");
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const HomePage(),
+                        color: Colors.green,
+                        onPressed: () {
+                          docParkOriginal.update({
+                            'numberParking': parkModel.numberParking - 1,
+                          });
+                          ReservedPark().createReservedParking(
+                              parkModel: ReservedParkModel(
+                                  deletedOrExpired: false,
+                                  description: parkModel.description,
+                                  latitude: parkModel.latitude,
+                                  longitude: parkModel.longitude,
+                                  reserved: true,
+                                  timestampReserved: DateTime.now(),
+                                  user: user.email.toString()));
+
+                          AlertDialogPopup.showPopUp(
+                              context, "SUCCESS", "successful booking");
+
+                        },
+                        child: const Text(
+                          'RESERVE',
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.white,
                           ),
-                        );
-                      },
-                      child: const Text(
-                        'RESERVE',
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                        )),
                   ],
                 )
               ],
@@ -185,10 +178,4 @@ class _CarParkListViewListState extends State<CarParkListViewList> {
           ),
         ));
   }
-
-  return
-
-  const SizedBox();
-}}
-
 }

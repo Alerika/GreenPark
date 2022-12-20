@@ -10,12 +10,12 @@ import '../models/ReservedParkModel.dart';
 import '../pages/ParkSettingPage.dart';
 import 'AlertDialogPopUp.dart';
 
-class CarParkTodayListViewList extends StatefulWidget {
-  CarParkTodayListViewList({Key? key}) : super(key: key);
+class CarParkReservedViewList extends StatefulWidget {
+  CarParkReservedViewList({Key? key}) : super(key: key);
   final db = FirebaseFirestore.instance;
 
   @override
-  State<CarParkTodayListViewList> createState() => _CarParkListViewListState();
+  State<CarParkReservedViewList> createState() => _CarParkListViewListState();
 
   Stream<List<ParkModel>> readParking() => FirebaseFirestore.instance
       .collection('carParks')
@@ -30,7 +30,7 @@ class CarParkTodayListViewList extends StatefulWidget {
               .toList());
 }
 
-class _CarParkListViewListState extends State<CarParkTodayListViewList> {
+class _CarParkListViewListState extends State<CarParkReservedViewList> {
   _CarParkListViewListState();
 
   final user = FirebaseAuth.instance.currentUser!;
@@ -39,7 +39,7 @@ class _CarParkListViewListState extends State<CarParkTodayListViewList> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<List<ReservedParkModel>>(
-        stream: CarParkTodayListViewList().readReservedParking(),
+        stream: CarParkReservedViewList().readReservedParking(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong! ${snapshot.error}');
@@ -93,10 +93,7 @@ class _CarParkListViewListState extends State<CarParkTodayListViewList> {
         .doc(parkModel.id);
     if (user.email == parkModel.user &&
         parkModel.reserved == true &&
-        parkModel.deletedOrExpired == false &&
-        today.day.toString() == reserved.day.toString() &&
-        today.month.toString() == reserved.month.toString() &&
-        today.year.toString() == reserved.year.toString()) {
+        parkModel.deletedOrExpired == false) {
       return Scaffold(
           appBar: AppBar(
             title: Text(parkModel.description),

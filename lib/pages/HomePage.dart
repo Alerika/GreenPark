@@ -5,6 +5,7 @@ import 'package:greenpark/pages/SettingsPage.dart';
 
 import '../utils/CarParkDeletedExpiredListViewList.dart';
 import '../utils/CarParkListView.dart';
+import '../utils/CarParkReservedListViewList.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class _HomePage extends State<HomePage> {
         child: CarParkListViewList(),
       ),
        Center(
-        child: Text('Reserved parking: no parking nearby '),
+        child: CarParkReservedViewList(),
       ),
        Center(
         child: CarParkTodayListViewList(),
